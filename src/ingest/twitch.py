@@ -3,8 +3,8 @@ from dataclasses import dataclass
 
 @dataclass
 class TwitchConn:
-    server: str
-    port: int
+    server: str = 'irc.chat.twitch.tv'
+    port: int = 6667
 
 
 @dataclass

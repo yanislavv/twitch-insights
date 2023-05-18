@@ -1,10 +1,11 @@
 import socket
+from twitch import TwitchConn
 
 
 class IRCClient:
 
-    SERVER = 'irc.chat.twitch.tv'
-    PORT = 6667
+    SERVER = TwitchConn.server
+    PORT = TwitchConn.port
 
     def __init__(self, nickname: str, token: str, channel: str):
         self.nickname = nickname
@@ -13,7 +14,7 @@ class IRCClient:
         self.sock = socket.socket()
 
     def __str__(self):
-        return f"Server: {IRCClient.SERVER}, Port: {IRCClient.PORT}, Nickname: {self.nickname}, Token: {self.token}, Channel: {self.channel}"
+        return f'Server: {IRCClient.SERVER}, Port: {IRCClient.PORT}, Nickname: {self.nickname}, Token: {self.token}, Channel: {self.channel}'
 
     def connect(self):
         try:
@@ -34,6 +35,9 @@ class IRCClient:
 
     def receive_message(self):
         return self.sock.recv(2048).decode('utf-8')
+
+    def send_message(self, command: str, message: str = ''):
+        self.sock.send(f"{command} {self.channel} :{message}\n".encode('utf-8'))
 
     def disconnect(self):
         self.sock.close()
