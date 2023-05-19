@@ -24,6 +24,7 @@ class IRCClient:
 
     def join_channel(self):
         try:
+            self.sock.send(f"CAP REQ :twitch.tv/membership twitch.tv/tags twitch.tv/commands\n".encode('utf-8'))
             self.sock.send(f"PASS {self.token}\n".encode('utf-8'))
             self.sock.send(f"NICK {self.nickname}\n".encode('utf-8'))
             self.sock.send(f"JOIN {self.channel}\n".encode('utf-8'))
