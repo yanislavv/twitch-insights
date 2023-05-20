@@ -1,7 +1,10 @@
 import argparse
 import datetime
+import time
 import twitch as tw
 from messages import IRCClient
+
+BATCH_INTERVAL = 60
 
 
 def get_datetime():
@@ -11,7 +14,7 @@ def get_datetime():
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('-n', '--nickname', type=str, required=True, help='Nickname of my Twitch account.')
-    parser.add_argument('-c', '--channel', type=str, required=True, help='Name of the Twitch channel you want to join.')
+    parser.add_argument('-c', '--channel', type=str, required=True, help='Name of the Twitch channel to join.')
     return parser.parse_args()
 
 
@@ -24,13 +27,22 @@ def main():
     client.join_channel()
 
     while True:
-        with open(f"chat_msg_{chn.channel.strip('#')}_{get_datetime()}", "w") as f:
-            response = client.receive_message()
-            if response.startswith('PING'):
-                client.send_message('PONG')
-            elif len(response) > 0:
-                f.write(response)
-                print(response)
+        # TODO: exit when stream ends
+
+        start_time = time.time()
+        elapsed_time = 0
+
+        with open(f"chat_msg_{chn.channel.strip('#')}_{get_datetime()}", "w", encoding="utf-8", newline='') as f:
+
+            while elapsed_time < BATCH_INTERVAL:
+
+                response = client.receive_message()
+                if response.startswith('PING'):
+                    client.send_message('PONG')
+                elif len(response) > 0:
+                    f.write(response)
+
+                elapsed_time = time.time() - start_time
 
 
 if __name__ == '__main__':
