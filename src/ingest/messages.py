@@ -1,5 +1,5 @@
 import socket
-from twitch import TwitchConn
+from .twitch import TwitchConn
 
 
 class IRCClient:

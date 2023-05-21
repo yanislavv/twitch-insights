@@ -1,10 +1,10 @@
 import argparse
 import datetime
 import time
-import twitch as tw
-from messages import IRCClient
 
-BATCH_INTERVAL = 60
+from .twitch import Account, Channel
+from .messages import IRCClient
+from . import ExtractVar
 
 
 def get_datetime():
@@ -20,8 +20,8 @@ def parse_args():
 
 def main():
     args = parse_args()
-    acc = tw.Account(nickname=args.nickname)
-    chn = tw.Channel(channel=args.channel)
+    acc = Account(nickname=args.nickname)
+    chn = Channel(channel=args.channel)
     client = IRCClient(acc.nickname, acc.token, chn.channel)
     client.connect()
     client.join_channel()
@@ -34,7 +34,7 @@ def main():
 
         with open(f"chat_msg_{chn.channel.strip('#')}_{get_datetime()}", "w", encoding="utf-8", newline='') as f:
 
-            while elapsed_time < BATCH_INTERVAL:
+            while elapsed_time < ExtractVar.BATCH_INTERVAL.value:
 
                 response = client.receive_message()
                 if response.startswith('PING'):
