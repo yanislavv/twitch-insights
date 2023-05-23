@@ -41,8 +41,8 @@ def main():
                     client.send_message('PONG')
                 elif len(response) > 0:
                     f.write(response)
-
                 elapsed_time = time.time() - start_time
+            # TODO: upload txt file to s3 bucket
 
 
 if __name__ == '__main__':
