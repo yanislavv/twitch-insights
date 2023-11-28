@@ -7,7 +7,7 @@ from pathlib import PurePosixPath
 from src.services.aws import AWSServices as aws
 from src.extract.twitch import Account, Channel
 from src.extract.messages import IRCClient
-from . import ExtractVar
+from src import ExtractVar
 
 
 def get_datetime():
