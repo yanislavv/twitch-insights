@@ -1,5 +1,4 @@
 import boto3
-from src import ExtractVar
 
 
 class AWSServices:
@@ -13,10 +12,10 @@ class AWSServices:
         return cls.s3_client.upload_fileobj(file, bucket, s3_key)
     
     @classmethod
-    def get_message(cls):
+    def get_message(cls, queue_url):
         response = cls.sqs.receive_message(
-            QueueUrl=ExtractVar.QUEUE_URL,
-            MaxNumberOfMessages=1,
-            WaitTimeSeconds=20
+            QueueUrl=queue_url,
+            MaxNumberOfMessages=10,
+            WaitTimeSeconds=1
             )
         return response
