@@ -4,8 +4,8 @@ import boto3
 class AWSServices:
 
     region = 'eu-central-1'
-    s3_client = boto3.client('s3')
-    sqs = boto3.client('sqs')
+    s3_client = boto3.client('s3', region)
+    sqs = boto3.client('sqs', region)
 
     @classmethod
     def upload_s3(cls, file, bucket, s3_key):
