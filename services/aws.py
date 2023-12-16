@@ -10,6 +10,11 @@ class AWSServices:
     @classmethod
     def upload_s3(cls, file, bucket, s3_key):
         return cls.s3_client.upload_fileobj(file, bucket, s3_key)
+
+    @classmethod
+    def read_s3(cls, bucket, key):
+        response = cls.s3_client.get_object(Bucket=bucket, Key=key)
+        return response['Body'].read().decode("utf-8")
     
     @classmethod
     def get_message(cls, queue_url):

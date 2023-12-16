@@ -34,7 +34,10 @@ def main():
             if response.startswith('PING'):
                 client.send_message('PONG')
             elif len(response) > 0:
-                out_buffer.write(bytes(response, encoding='utf8'))
+                try:
+                    out_buffer.write(bytes(response, encoding='utf8'))
+                except:
+                    print(f'Cannot write message to buffer: {response}')
             elapsed_time = time.time() - start_time
 
         out_buffer.seek(0)
