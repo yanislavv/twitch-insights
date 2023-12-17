@@ -11,8 +11,8 @@ def lambda_handler(event, context):
     rows = body.split('\r\n')
     out_buffer = io.BytesIO()
     messages = {}
-    line = {}
     for row in rows:
+        line = {}
         row = row.split(';')
         for col in row:
             col_value = col.split('=')
