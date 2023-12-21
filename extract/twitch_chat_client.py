@@ -33,7 +33,7 @@ def main():
             response = client.receive_message()
             if response.startswith('PING'):
                 client.send_message('PONG')
-            elif len(response) > 0:
+            elif len(response) > 0 and ('PART' not in response and 'JOIN' not in response):
                 try:
                     out_buffer.write(bytes(response, encoding='utf8'))
                 except:

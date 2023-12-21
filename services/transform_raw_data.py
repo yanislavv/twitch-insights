@@ -20,11 +20,12 @@ def lambda_handler(event, context):
                 line.update({col_value[0]: col_value[1]})
             except:
                 print(f"Invalid record!\n>>{col_value}<<")
-        loading_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
-        if loading_time not in messages:
-            messages[loading_time] = [line]
-        else:
-            messages[loading_time].append(line)
+        if line:
+            loading_time = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
+            if loading_time not in messages:
+                messages[loading_time] = [line]
+            else:
+                messages[loading_time].append(line)
 
     messages = json.dumps(messages, indent=2)
     out_buffer.write(bytes(messages, encoding='utf-8'))
