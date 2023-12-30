@@ -1,0 +1,21 @@
+{
+    "@badge-info": {"name": "badge_info", "type": "str", "default": null, "nullable": true},
+    "badges": {"name": "badges", "type": "str", "default": null, "nullable": true},
+    "client-nonce": {"name": "client_nonce", "type": "str", "default": null, "nullable": true},
+    "color": {"name": "color", "type": "str", "default": null, "nullable": true},
+    "display-name": {"name": "display_name", "type": "str", "default": null, "nullable": true},
+    "emotes": {"name": "emotes", "type": "str", "default": null, "nullable": true},
+    "first-msg": {"name": "first_msg", "type": "str", "default": null, "nullable": true},
+    "flags": {"name": "flags", "type": "str", "default": null, "nullable": true},
+    "id": {"name": "id", "type": "str", "default": null, "nullable": true},
+    "mod": {"name": "mod", "type": "str", "default": null, "nullable": true},
+    "returning-chatter": {"name": "returning_chatter", "type": "str", "default": null, "nullable": true},
+    "room-id": {"name": "room_id", "type": "str", "default": null, "nullable": true},
+    "subscriber": {"name": "subscriber", "type": "str", "default": null, "nullable": true},
+    "turbo": {"name": "turbo", "type": "str", "default": null, "nullable": true},
+    "user-id": {"name": "user_id", "type": "str", "default": null, "nullable": true},
+    "user-type": {"name": "user_type", "type": "str", "default": null, "nullable": true},
+    "year": {"name": "year", "type": "str", "default": null, "nullable": true},
+    "month": {"name": "month", "type": "str", "default": null, "nullable": true},
+    "day": {"name": "day", "type": "str", "default": null, "nullable": true}
+}
