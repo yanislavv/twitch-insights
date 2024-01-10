@@ -12,10 +12,8 @@
     "returning-chatter": {"name": "returning_chatter", "type": "str", "default": null, "nullable": true},
     "room-id": {"name": "room_id", "type": "str", "default": null, "nullable": true},
     "subscriber": {"name": "subscriber", "type": "str", "default": null, "nullable": true},
+    "tmi-sent-ts": {"name": "tmi_sent_ts", "type": "str", "default": null, "nullable": true},
     "turbo": {"name": "turbo", "type": "str", "default": null, "nullable": true},
     "user-id": {"name": "user_id", "type": "str", "default": null, "nullable": true},
-    "user-type": {"name": "user_type", "type": "str", "default": null, "nullable": true},
-    "year": {"name": "year", "type": "str", "default": null, "nullable": true},
-    "month": {"name": "month", "type": "str", "default": null, "nullable": true},
-    "day": {"name": "day", "type": "str", "default": null, "nullable": true}
+    "user-type": {"name": "user_type", "type": "str", "default": null, "nullable": true}
 }

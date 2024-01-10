@@ -18,3 +18,7 @@ class DatabaseConnector:
                 print(f"Connected to {self.connection().bind}")
         except Exception as e:
             print(e)
+
+
+db_connector = DatabaseConnector('localhost', 'root', 'admin', 'twitch_insights')
+db_connector.connect()

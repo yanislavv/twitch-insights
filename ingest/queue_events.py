@@ -3,7 +3,8 @@ import json
 
 from services.aws import AWSServices as aws
 from configs.variables import AppConfig
-from ingest.table_manager import TableManager
+from ingest.writer import DatabaseWriter
+from table_manager import raw_messages_table
 
 
 def get_s3_object(queue_event):
@@ -20,13 +21,15 @@ def main():
     while True:
 
         response = aws.get_message(AppConfig.QUEUE_URL.value)
+        print(response)
         keys = get_s3_object(response)
         for key in keys:
             records = aws.read_s3(AppConfig.BUCKET_STAGING.value, key)
             for record in json.loads(records).values():
-                if TableManager.validate_schema('schemas/raw_messages.json', record[0], key):
-                    #insert to db
-                    print('here')
+                if DatabaseWriter.validate_schema('schemas/raw_messages.json', record[0], key):
+                    record = DatabaseWriter.add_partitions(record[0])
+                    print(record)
+                    DatabaseWriter.write_to_db(raw_messages_table, record)
         time.sleep(10)
 
 

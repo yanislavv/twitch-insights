@@ -1,11 +1,9 @@
-import json
-
 from sqlalchemy import Table, MetaData, Column, String, inspect
 from database_connector import DatabaseConnector
 
-
+metadata = MetaData()
 raw_massages_columns = [
-    Column('badge-info', String(length=255)),
+    Column('@badge-info', String(length=255)),
     Column('badges', String(length=255)),
     Column('client-nonce', String(length=255)),
     Column('color', String(length=255)),
@@ -18,6 +16,7 @@ raw_massages_columns = [
     Column('returning-chatter', String(length=255)),
     Column('room-id', String(length=255)),
     Column('subscriber', String(length=255)),
+    Column('tmi-sent-ts', String(length=255)),
     Column('turbo', String(length=255)),
     Column('user-id', String(length=255)),
     Column('user-type', String(length=255)),
@@ -25,13 +24,13 @@ raw_massages_columns = [
     Column('month', String(length=255)),
     Column('day', String(length=255)),
 ]
+raw_messages_table = Table('raw_messages_new', metadata, *raw_massages_columns)
 
 
 class TableManager:
-    def __init__(self, database_connector, table_name: str, columns: list):
+    def __init__(self, database_connector, table: Table):
         self.database_connector = database_connector
-        self.metadata = MetaData(schema=self.database_connector.db)
-        self.table = Table(table_name, self.metadata, *columns)
+        self.table = table
         self.inspector = inspect(self.database_connector.engine)
 
     def create_table(self):
@@ -43,31 +42,8 @@ class TableManager:
     def get_schema(self):
         return self.inspector.get_columns(self.table.name)
 
-    @staticmethod
-    def validate_schema(schema_file, record, file_key):
-        with open(schema_file, 'r') as file:
-            schema = json.load(file)
-
-        delete_keys = []
-        for col, val in record.items():
-            if any(schema_col for schema_col in schema if col == schema_col):
-                if not isinstance(val, eval(schema[col]['type'])):
-                    # TODO: write invalid record to log file
-                    break
-            else:
-                delete_keys.append(col)
-        if delete_keys:
-            for key in delete_keys:
-                del record[key]
-        missing_keys = set(schema.keys()).difference(set(record.keys()))
-        if missing_keys:
-            print(f"Following keys are missing from the schema --> {', '.join(missing_keys)}:\n"
-                  f"File -> {file_key}\nRecord -> {record}")
-            return False
-        return True
-
 
 # eng = DatabaseConnector('localhost', 'root', 'admin', 'twitch_insights')
 #
-# mng = TableManager(eng, 'raw_messages', raw_massages_columns)
+# mng = TableManager(eng, raw_messages_table)
 # print(mng.create_table())

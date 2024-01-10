@@ -13,6 +13,7 @@ class AWSServices:
 
     @classmethod
     def read_s3(cls, bucket, key):
+        # TODO try exception
         response = cls.s3_client.get_object(Bucket=bucket, Key=key)
         return response['Body'].read().decode("utf-8")
     
