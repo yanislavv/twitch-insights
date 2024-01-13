@@ -1,4 +1,5 @@
 import boto3
+from botocore.exceptions import ClientError
 
 
 class AWSServices:
@@ -25,3 +26,17 @@ class AWSServices:
             WaitTimeSeconds=1
             )
         return response
+
+    @classmethod
+    def delete_message(cls, queue_url, message_id):
+        try:
+            response = cls.sqs.delete_message(
+                QueueUrl=queue_url,
+                ReceiptHandle=message_id
+            )
+            return response
+        except ClientError as e:
+            if e.response['Error']['Code'] == 'ReceiptHandleIsInvalid':
+                print(f'Provided message_id is invalid: {message_id}')
+            else:
+                print(e.response)
