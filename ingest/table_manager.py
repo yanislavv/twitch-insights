@@ -1,5 +1,6 @@
-from sqlalchemy import Table, MetaData, Column, String, inspect
-from database_connector import DatabaseConnector
+from sqlalchemy import Table, MetaData, Column, String, inspect, DateTime
+from sqlalchemy.sql import func
+from ingest.database_connector import DatabaseConnector
 
 metadata = MetaData()
 raw_massages_columns = [
@@ -23,8 +24,9 @@ raw_massages_columns = [
     Column('year', String(length=255)),
     Column('month', String(length=255)),
     Column('day', String(length=255)),
+    Column('loading_time', DateTime(timezone=True), server_default=func.now(), nullable=False)
 ]
-raw_messages_table = Table('raw_messages_new', metadata, *raw_massages_columns)
+raw_messages_table = Table('raw_messages', metadata, *raw_massages_columns)
 
 
 class TableManager:
@@ -43,7 +45,6 @@ class TableManager:
         return self.inspector.get_columns(self.table.name)
 
 
-# eng = DatabaseConnector('localhost', 'root', 'admin', 'twitch_insights')
-#
-# mng = TableManager(eng, raw_messages_table)
-# print(mng.create_table())
+# db_connector = DatabaseConnector('127.0.0.1', 'root', 'admin', 'twitch_insights') # using localhost when running it from local
+# mng = TableManager(db_connector, raw_messages_table)
+# mng.create_table()

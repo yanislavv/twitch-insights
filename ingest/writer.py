@@ -1,7 +1,7 @@
 import json
 
 from sqlalchemy import text, insert
-from database_connector import db_connector
+from ingest.database_connector import db_connector
 from datetime import datetime
 
 
