@@ -1,7 +1,14 @@
 version: '3.8'
+
+networks:
+  airflow-mysql:
+    external: true
+
 services:
   grafana:
     image: grafana/grafana-enterprise
+    networks:
+      - airflow-mysql
     container_name: grafana
     restart: unless-stopped
     environment:
@@ -13,6 +20,8 @@ services:
       - C:\Users\Yanislav\Documents\docker_volumes\grafana-storage:/var/lib/grafana
   mysql:
     image: mysql:8.0
+    networks:
+      - airflow-mysql
     container_name: mysql
     restart: unless-stopped
     environment:
@@ -28,6 +37,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    networks:
+      - airflow-mysql
     container_name: twitch-queue-events
     restart: unless-stopped
     command: python -m ingest.queue_events

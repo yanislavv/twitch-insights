@@ -35,7 +35,7 @@ class IRCClient:
             raise e
 
     def receive_message(self):
-        return self.sock.recv(2048).decode('utf-8')
+        return self.sock.recv(2048).decode('utf-8', 'ignore')
 
     def send_message(self, command: str, message: str = ''):
         self.sock.send(f"{command} {self.channel} :{message}\n".encode('utf-8'))

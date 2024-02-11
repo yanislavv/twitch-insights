@@ -20,5 +20,5 @@ class DatabaseConnector:
             print(e)
 
 
-db_connector = DatabaseConnector('172.18.0.3', 'root', 'admin', 'twitch_insights') # mysql docker container IP used
+db_connector = DatabaseConnector('172.19.0.4', 'root', 'admin', 'twitch_insights') # mysql docker container IP used
 db_connector.connect()
